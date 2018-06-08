@@ -1,0 +1,36 @@
+[
+  {
+    "firstname": "Darshan",
+    "lastname": "Shah",
+    "email": "darshan@gmail.com",
+    "location": ["NY", "NJ"],
+    "phone": "5105567306",
+    "batch": "UI",
+    "address": {
+      "communication": "Google, NY",
+      "permanent": "Google, CA"
+    },
+    "previous_employer": {
+      "google": "Computer Programmer",
+      "facebook": "Front end developer",
+      "linkedin": "Software Engineer"
+    }
+  },
+  {
+    "firstname": "Darshan",
+    "lastname": "Shah",
+    "email": "darshan@gmail.com",
+    "location": ["NY", "NJ"],
+    "phone": "5105567306",
+    "batch": "UI",
+    "address": {
+      "communication": "Google, NY",
+      "permanent": "Google, CA"
+    },
+    "previous_employer": {
+      "google": "Computer Programmer",
+      "facebook": "Front end developer",
+      "linkedin": "Software Engineer"
+    }
+  }  
+]
