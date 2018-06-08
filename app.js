@@ -19,6 +19,7 @@ var main = {
   },
 
   displayTB: (length) => {
+         $( "tr#head" ).siblings().remove();
     for(var i=0; i< length; i++){
       $('#main_table').append(`<tr id="user_${i}">`);
       $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
@@ -87,13 +88,21 @@ newPromise.then(
 );
 
 //Retrieving form data
-var newObj = {};
+var newObj = {firstname:"", lastname:"", location:"",phone:"", previous_employer:"",email:"", batch:"", address: {Communication: "",Permanent: ""}};
 var val = [];
 
 $('#btn1').click(function() {
   $(':input[type="text"]').each(function() {
     if(this.value.trim() != "") {
-      newObj[this.name] = this.value;
+      if(this.name == 'address-Communication') {
+        console.log(this.value);
+        newObj['address']['Communication'] = this.value;
+      } else if(this.name == 'address-Permanent') {
+        console.log(this.value);
+        newObj['address']['Permanent'] = this.value;
+      }else {
+        newObj[this.name] = this.value;
+      }
     } else {
       val.push(this.name);
     }
