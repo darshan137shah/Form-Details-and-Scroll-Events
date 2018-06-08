@@ -1,8 +1,9 @@
 var main = {
-  dataRoot: {},
+  dataRoot: [],
 
   getRootData: function(data) {
     this.dataRoot = data;
+    this.displayTB(this.dataRoot.length);
   },
 
   updateLS: function (dataLS) {
@@ -13,11 +14,24 @@ var main = {
     } else {
       localStorage.storedData = JSON.stringify(dataLS);
     }
+    console.log()
     this.getRootData(JSON.parse(localStorage.storedData));
+  },
+
+  displayTB: (length) => {
+    for(var i=0; i< length; i++){
+      $('#main_table').append(`<tr id="user_${i}">`);
+      $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
+      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["lastname"]}</td>`);
+      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["email"]}</td>`);
+      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["location"]}</td>`);
+      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["phone"]}</td>`);
+      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["batch"]}</td>`);
+      $('#user_' +[i]).append(`<td>Communication: ${main.dataRoot[i].address.Communication} <br/>Permanent: ${main.dataRoot[i].address.Permanent}</td>`);
+  //For appending on clicked    $('#user_' +[i]).append(`<td class="ex">Google: ${array[i]["previous_employer"][0]} <br/>Facebook: ${array[i]["previous_employer"][1]} <br/>LinkedIn: ${array[i]["previous_employer"][2]}  </td>`);
+      $('#user_' +[i]).append(`</tr>`);
+    }
   }
-  // displayTB: () => {
-  //
-  // }
 }
 
 var loadTheData = (ajax) => {
@@ -59,7 +73,7 @@ var newPromise = new Promise(function(res, rej) {
         rej(err);
       }
   } else {
-    main.getRootData();
+    main.getRootData(JSON.parse(localStorage.storedData));
   }
 });
 
