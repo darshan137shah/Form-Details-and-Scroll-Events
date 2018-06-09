@@ -144,3 +144,18 @@ td#one td{
 .dis {
   display: "";
 }
+
+.ctrl-btn {
+  padding: 10px 10px;
+  margin: 0 5px;
+  background: #fff;
+  border:none;
+  transition: all 0.5s;
+  font-weight: bold;
+  outline: none;
+}
+
+.ctrl-btn:hover{
+  color: rgba(254, 213, 58, 0.8);
+  background-color: #000;
+}

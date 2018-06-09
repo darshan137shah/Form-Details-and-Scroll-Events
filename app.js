@@ -30,18 +30,23 @@ var main = {
   displayTB: (length) => {
     $( "tr#head" ).siblings().remove();
     for(var i = (main.dataRoot.length - 1) ; i > (main.dataRoot.length - 1 - length) ; i--){
-      $('#main_table').append(`<tr id="user_${i}">`);
-      $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
-      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["lastname"]}</td>`);
-      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["email"]}</td>`);
-      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["location"]}</td>`);
-      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["phone"]}</td>`);
-      $('#user_' +[i]).append(`<td>${main.dataRoot[i]["batch"]}</td>`);
-      $('#user_' +[i]).append(`<td>Communication: ${main.dataRoot[i].address.Communication} <br/>Permanent: ${main.dataRoot[i].address.Permanent}</td>`);
-      $('#user_' +[i]).append(`<input type="button" id="view_${i}" value="View">`);
-      $('#user_' +[i]).append(`<input type="button" id="edit_${i}" value="Edit">`);
-  //For appending on clicked    $('#user_' +[i]).append(`<td class="ex">Google: ${array[i]["previous_employer"][0]} <br/>Facebook: ${array[i]["previous_employer"][1]} <br/>LinkedIn: ${array[i]["previous_employer"][2]}  </td>`);
-      $('#user_' +[i]).append(`</tr>`);
+      if(main.dataRoot[i]) {
+        $('#main_table').append(`<tr id="user_${i}">`);
+        $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
+        $('#user_' +[i]).append(`<td>${main.dataRoot[i]["lastname"]}</td>`);
+        $('#user_' +[i]).append(`<td>${main.dataRoot[i]["email"]}</td>`);
+        $('#user_' +[i]).append(`<td>${main.dataRoot[i]["location"]}</td>`);
+        $('#user_' +[i]).append(`<td>${main.dataRoot[i]["phone"]}</td>`);
+        $('#user_' +[i]).append(`<td>${main.dataRoot[i]["batch"]}</td>`);
+        $('#user_' +[i]).append(`<td>Communication: ${main.dataRoot[i].address.Communication} <br/>Permanent: ${main.dataRoot[i].address.Permanent}</td>`);
+        $('#user_' +[i]).append(`<input type="button" id="view_${i}" class='ctrl-btn' value="View">`);
+        $('#user_' +[i]).append(`<input type="button" id="edit_${i}" class='ctrl-btn' value="Edit">`);
+        $('#user_' +[i]).append(`<input type="button" id="delete_${i}" class='ctrl-btn' value="Delete">`);
+        $('#user_' +[i]).append(`</tr>`);
+      } else {
+        $('#main_table').append(`<tr id="user_${i}" class='hidden'>`);
+        $('#user_' +[i]).append(`</tr>`);
+      }
     }
   }
 }
@@ -121,7 +126,6 @@ $('#btn1').click(function() {
   if(val.length > 0) {
     alert(`Please fill the followings: ${val}`);
   } else {
-    el.css('border', 'none');
     main.updateLS(newObj);
   }
 })
@@ -162,13 +166,13 @@ var viewContent = function(id, isEditable) {
 
 
 //View Btn Events
-$('input[id^=view]').on('click', function() {
+$('table').on('click', 'input[id^=view]', function() {
   var id = this.id.substr(5, 3);
   viewContent(id, false);
 })
 
 //Edit Btn Events
-$('input[id^=edit]').on('click', function() {
+$('table').on('click', 'input[id^=edit]', function() {
   //getting the data of that id from editDataRoot
   var id = this.id.substr(5, 3);
   viewContent(id, true);
@@ -210,6 +214,16 @@ $('table').on('click', 'input[id^=updateData]', function() {
   update(id);
 })
 
+
+//Delete Data Function
+$('table').on('click', 'input[id^=delete]', function() {
+  //getting the data of that id from editDataRoot
+  var id = this.id.substr(7, 3);
+  delete main.dataRoot[id];
+  main.changesLS();
+  // viewContent(id, true);
+  // updateInstance = newInstance;
+});
 
 //OnScroll Event
 //View Counts Event
