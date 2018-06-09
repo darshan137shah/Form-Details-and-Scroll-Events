@@ -3,7 +3,7 @@ var main = {
 
   getRootData: function(data) {
     this.dataRoot = data;
-    this.displayTB(this.dataRoot.length);
+    ($('.counts').val() == "onscroll") ? this.displayTB(10) : this.displayTB(Number($('.counts').val()));;
   },
 
   updateLS: function (dataLS) {
@@ -14,13 +14,22 @@ var main = {
     } else {
       localStorage.storedData = JSON.stringify(dataLS);
     }
-    console.log()
     this.getRootData(JSON.parse(localStorage.storedData));
   },
 
+  changesLS: function() {
+    localStorage.storedData = JSON.stringify(this.dataRoot);
+    ($('.counts').val() == "onscroll") ? this.displayTB(10) : this.displayTB(Number($('.counts').val()));;
+  },
+
+  editDataRoot: function(id, dataName) {
+    // var id = Number[id.substr(5, 3)];
+    // main.dataRoot[i][dataName] = dataName;
+  },
+
   displayTB: (length) => {
-         $( "tr#head" ).siblings().remove();
-    for(var i=0; i< length; i++){
+    $( "tr#head" ).siblings().remove();
+    for(var i = (main.dataRoot.length - 1) ; i > (main.dataRoot.length - 1 - length) ; i--){
       $('#main_table').append(`<tr id="user_${i}">`);
       $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
       $('#user_' +[i]).append(`<td>${main.dataRoot[i]["lastname"]}</td>`);
@@ -29,6 +38,8 @@ var main = {
       $('#user_' +[i]).append(`<td>${main.dataRoot[i]["phone"]}</td>`);
       $('#user_' +[i]).append(`<td>${main.dataRoot[i]["batch"]}</td>`);
       $('#user_' +[i]).append(`<td>Communication: ${main.dataRoot[i].address.Communication} <br/>Permanent: ${main.dataRoot[i].address.Permanent}</td>`);
+      $('#user_' +[i]).append(`<input type="button" id="view_${i}" value="View">`);
+      $('#user_' +[i]).append(`<input type="button" id="edit_${i}" value="Edit">`);
   //For appending on clicked    $('#user_' +[i]).append(`<td class="ex">Google: ${array[i]["previous_employer"][0]} <br/>Facebook: ${array[i]["previous_employer"][1]} <br/>LinkedIn: ${array[i]["previous_employer"][2]}  </td>`);
       $('#user_' +[i]).append(`</tr>`);
     }
@@ -91,14 +102,13 @@ newPromise.then(
 var newObj = {firstname:"", lastname:"", location:"",phone:"", previous_employer:"",email:"", batch:"", address: {Communication: "",Permanent: ""}};
 var val = [];
 
+//Form Validations and Data Rendering
 $('#btn1').click(function() {
-  $(':input[type="text"]').each(function() {
+  $('form#myForm :input[type="text"]').each(function() {
     if(this.value.trim() != "") {
       if(this.name == 'address-Communication') {
-        console.log(this.value);
         newObj['address']['Communication'] = this.value;
       } else if(this.name == 'address-Permanent') {
-        console.log(this.value);
         newObj['address']['Permanent'] = this.value;
       }else {
         newObj[this.name] = this.value;
@@ -109,9 +119,141 @@ $('#btn1').click(function() {
   });
 
   if(val.length > 0) {
-    alert('It will show the warnings');
+    alert(`Please fill the followings: ${val}`);
   } else {
+    el.css('border', 'none');
     main.updateLS(newObj);
-    console.log('Success!!!');
   }
+})
+
+// View Content Function
+var viewContent = function(id, isEditable) {
+  var ele = $('.views' + id);
+  var data = main.dataRoot[id];
+  var eleCss = ele.css('display');
+  if(ele.length == 0)  {
+    $('tr#user_'+id).before('<td id="one" class="views' + id + '"></td>');
+    var form = `
+      <td><input type="text" name="firstname" value="${data.firstname}" placeholder="First Name"></td>
+      <td><input type="text" name="lastname" value="${data.lastname}"  placeholder="Last Name" ></td>
+      <td><input type="text" name="email" value="${data.email}" placeholder="Email" ></td>
+      <td><input type="text" name="location" value="${data.location}" placeholder="Location" ></td>
+      <td><input type="text" name="phone" value="${data.phone}" placeholder="Phone" ></td>
+      <td><input type="text" name="batch" value="${data.batch}"  placeholder="Batch" ></td>
+      <td><input type="text" name="address-Communication" value="${data.address.Communication}" placeholder="Address Communication" >
+      <input type="text" name="address-Permanent" value="${data.address.Permanent}" placeholder="Address Parmanent" >
+      <input type="text" name="previous_employer" value="${data.previous_employer}" placeholder="Previous Employer" >
+      <input type="button" id="updateData_${id}" name="btn1" value="Submit"></td>
+    `;
+    $("td[class='views"+id+"']").html(form);
+    // $('.views'+id+' input').attr('disabled', true);
+  } else if(eleCss == 'table-row-group') {
+    ele.css('display','none');
+  } else {
+    ele.css('display','table-row-group');
+  }
+
+  if (isEditable) {
+    $(`#updateData_${id}`).css('display', '');
+  } else {
+    $(`#updateData_${id}`).css('display', 'none');
+  }
+}
+
+
+//View Btn Events
+$('input[id^=view]').on('click', function() {
+  var id = this.id.substr(5, 3);
+  viewContent(id, false);
+})
+
+//Edit Btn Events
+$('input[id^=edit]').on('click', function() {
+  //getting the data of that id from editDataRoot
+  var id = this.id.substr(5, 3);
+  viewContent(id, true);
+  // updateInstance = newInstance;
+})
+
+
+//Update Data Function
+// ******************Validation for the second form
+function update(id) {
+var newObj = {firstname:"", lastname:"", location:"",phone:"", previous_employer:"",email:"", batch:"", address: {Communication: "",Permanent: ""}};
+var val = [];
+
+  $(`.views${id} input[type="text"]`).each(function() {
+    if(this.value.trim() != "") {
+      if(this.name == 'address-Communication') {
+        newObj['address']['Communication'] = this.value;
+      } else if(this.name == 'address-Permanent') {
+        newObj['address']['Permanent'] = this.value;
+      }else {
+        newObj[this.name] = this.value;
+      }
+    } else {
+      val.push(this.name);
+    }
+  });
+
+  if(val.length > 0) {
+    alert(`Please fill the followings: ${val}`);
+  } else {
+    main.dataRoot[id] = newObj;
+    main.changesLS();
+    $('.views' + id).css('display', 'none');
+  }
+}
+
+$('table').on('click', 'input[id^=updateData]', function() {
+  var id = this.id.substr(11, 3);
+  update(id);
+})
+
+
+//OnScroll Event
+//View Counts Event
+$('.counts').change(function() {
+  if(this.value == 'onscroll') {
+    k = 10;
+    main.displayTB(10);
+    $(window).scroll(function() {
+         if(($(window).scrollTop() + $(window).height()) == $(document).height()) {
+           if (k == main.dataRoot.length) {
+            } else if (k <= (main.dataRoot.length-10)) {
+               k = k + 10;
+               main.displayTB(k);
+            } else if (k >= (main.dataRoot.length-10)) {
+               k = k + 1;
+               main.displayTB(k);
+            }
+         }
+    });
+  } else {
+    k = undefined;
+    main.displayTB(this.value);
+  }
+})
+
+
+//Search function
+function myFunction(keyValue, f) {
+  var filter, table, tr;
+  filter = keyValue.toUpperCase();
+  table = $("table");
+
+  var tr = $("tr[id^='user'] > td:nth-of-type(" + f + ")");
+   tr.each(function(index, e)  {
+    if($(e).text().toUpperCase().indexOf(filter) > -1) {
+      $(this).parent().css('display', '')
+    } else {
+      $(this).parent().css('display', 'none')
+    }
+  })
+}
+
+//Search Input Event
+$("#search").on("keyup", function() {
+  f = $('.searchby').val();
+  myFunction(this.value, Number(f));
 })

@@ -1,3 +1,146 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: calibri;
+}
+
 body {
+  height: auto;
+  width: 90%;
+  margin: 0 auto;
+}
+
+main {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+form#myForm {
+  padding: 50px 0px;
+  background: rgba(254, 213, 58, 0.8);
+  text-align: center;
+}
+
+form#myForm input{
+  padding: 15px 5px;
+  font-size: 1.1rem;
+}
+
+form#myForm input[type='text'] {
+  width: 35%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid;
+}
+
+form#myForm input::placeholder{
+  color: #000;
+  text-align: center;
+}
+
+form#myForm input:focus{
+    outline:none;
+}
+
+form#myForm input[type="button"] {
+  display: block;
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 30px;
+  background: #fff;
+  outline: none;
+  border: none;
+  transition: all 0.5s;
+  font-weight: bold;
+}
+
+form#myForm input[type="button"]:hover {
+  color: rgba(254, 213, 58, 0.8);
+  background-color: #000;
+}
+
+div.disp-nav {
+  margin: 20px 0;
+  text-align: center;
+  display: flex;
+  align-items: baseline;
+}
+
+div.disp-nav span{
+  display: inline-block;
+  padding: 20px 00px;
+}
+
+div.disp-nav span:nth-of-type(2){
+  width: 50%;
   /* background: #000; */
+}
+
+div.disp-nav span:nth-of-type(2) input{
+    border: 0;
+    border-bottom: 1px solid;
+    width: 100%;
+    line-height: 2.5rem;
+    text-align: center;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+div.disp-nav span{
+  width: 50%;
+}
+
+table {
+  display: flex;
+  flex-wrap: wrap;
+  border-collapse: collapse;
+  text-align: center;
+  color: #666666;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.02);
+  justify-content: center;
+  line-height: 1.4;
+}
+
+table tr {
+}
+
+table tr th {
+  color: #000;
+  font-weight: bold;
+  border-bottom: none;
+  box-shadow: 0px 5px 0px 0px rgba(0, 0, 0, 0.05);
+}
+
+table tr td {
+  font-weight:500;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+table tr th, table tr td {
+  padding: 20px 40px;
+}
+
+.warning {
+  color: red;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+#one {
+  display: table-row-group;
+  flex-wrap: wrap;
+}
+
+td#one td{
+  padding: 0;
+  flex-grow: 2;
+}
+
+.dis {
+  display: "";
 }

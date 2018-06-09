@@ -11,26 +11,49 @@
   </head>
   <body>
 
-    <section>
-    </section>
-
     <main>
       <form id="myForm">
-        <input type="text" name="firstname" value="">
-        <input type="text" name="lastname" value="">
-        <input type="text" name="email" value="">
-        <input type="text" name="location" value="">
-        <input type="text" name="phone" value="">
-        <input type="text" name="batch" value="">
-        <input type="text" name="address-Communication" value="">
-        <input type="text" name="address-Permanent" value="">
-        <input type="text" name="previous_employer" value="">
+        <input type="text" name="firstname" value="" placeholder="First Name" required>
+        <input type="text" name="lastname" value=""  placeholder="Last Name" required>
+        <input type="text" name="email" value="" placeholder="Email" required>
+        <input type="text" name="location" value="" placeholder="Location" required>
+        <input type="text" name="phone" value=""  placeholder="Phone" required>
+        <input type="text" name="batch" value=""  placeholder="Batch" required>
+        <input type="text" name="address-Communication" value="" placeholder="Address Communication" required>
+        <input type="text" name="address-Permanent" value="" placeholder="Address Parmanent" required>
+        <input type="text" name="previous_employer" value="" placeholder="Previous Employer" required>
         <input type="button" id="btn1" name="btn1" value="Submit">
       </form>
 
-      <div class="nav">
+      <div class="disp-nav">
 
+        <span>
+          <label for="searchby" id="searchby">Search By</label>
+          <select class="searchby" name="searchby">
+            <option value="1">First Name</option>
+            <option value="2">Lastname</option>
+            <option value="3">E-mail</option>
+            <option value="4">Location</option>
+            <option value="5">Phone</option>
+            <option value="6">Batch</option>
+            <!-- <option value="any">Any</option> -->
+          </select>
+        </span>
+
+        <span><input type="text" name="search" id="search" value="" placeholder="Search"></span>
+
+        <span>
+          <label for="counts">View Counts</label>
+          <select class="counts" name="counts" id="counts">
+            <option value="10">10</option>
+            <option value="20">20</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="onscroll">On Scroll</option>
+          </select>
+        </span>
       </div>
+
       <div class="table-container">
         <table id="main_table">
           <tr id="head">
