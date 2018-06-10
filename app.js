@@ -228,7 +228,7 @@ $('table').on('click', 'input[id^=updateData]', function() {
 $('table').on('click', 'input[id^=delete]', function() {
   //getting the data of that id from editDataRoot
   var id = this.id.substr(7, 3);
-  delete main.dataRoot[id];
+  main.dataRoot.splice(id,1);
   main.changesLS();
   // viewContent(id, true);
   // updateInstance = newInstance;
