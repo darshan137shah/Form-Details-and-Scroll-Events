@@ -10,8 +10,13 @@
   crossorigin="anonymous"></script>
   </head>
   <body>
+    <div class="formToggle">
+      <input type="button" name="" value="-Open Form-">
+    </div>
+
 
     <main>
+      <div class="labelTop"> </div>
       <form id="myForm">
         <input type="text" name="firstname" value="" placeholder="First Name" required>
         <input type="text" name="lastname" value=""  placeholder="Last Name" required>
@@ -28,7 +33,7 @@
       <div class="disp-nav">
 
         <span>
-          <label for="searchby" id="searchby">Search By</label>
+          <label for="searchby" id="searchby">Search By - </label>
           <select class="searchby" name="searchby">
             <option value="1">First Name</option>
             <option value="2">Lastname</option>
@@ -43,7 +48,7 @@
         <span><input type="text" name="search" id="search" value="" placeholder="Search"></span>
 
         <span>
-          <label for="counts">View Counts</label>
+          <label for="counts">View Counts - </label>
           <select class="counts" name="counts" id="counts">
             <option value="10">10</option>
             <option value="20">20</option>

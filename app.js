@@ -1,3 +1,12 @@
+a = true;
+$('.formToggle input').on('click', function() {
+  $('.labelTop').slideToggle();
+  $('#myForm').slideToggle(1000, function() {
+    (a) ? $('.formToggle input').val('-Close Form-') : $('.formToggle input').val('-Open Form-');
+    a = !a;
+  });
+})
+
 var main = {
   dataRoot: [],
 
@@ -29,7 +38,7 @@ var main = {
 
   displayTB: (length) => {
     $( "tr#head" ).siblings().remove();
-    for(var i = (main.dataRoot.length - 1) ; i > (main.dataRoot.length - 1 - length) ; i--){
+    for(var i = (main.dataRoot.length - 1) ; i > (main.dataRoot.length - 1) - length ; i--){
       if(main.dataRoot[i]) {
         $('#main_table').append(`<tr id="user_${i}">`);
         $('#user_' +[i]).prepend(`<td>${main.dataRoot[i]["firstname"]}</td>`);
@@ -75,9 +84,9 @@ var newPromise = new Promise(function(res, rej) {
   if(!localStorage.storedData) {
       var data =   $.ajax({
           type: "GET",
-          url: "http://127.0.0.1:8001/data.json",
+          url: "http://127.0.0.1:8000/data.json",
           success: function(data) {
-            return "success";
+            return data;
           },
           error: function(err) {
             return err;
@@ -127,6 +136,7 @@ $('#btn1').click(function() {
     alert(`Please fill the followings: ${val}`);
   } else {
     main.updateLS(newObj);
+    $('form#myForm')[0].reset();
   }
 })
 
@@ -150,17 +160,16 @@ var viewContent = function(id, isEditable) {
       <input type="button" id="updateData_${id}" name="btn1" value="Submit"></td>
     `;
     $("td[class='views"+id+"']").html(form);
-    // $('.views'+id+' input').attr('disabled', true);
   } else if(eleCss == 'table-row-group') {
-    ele.css('display','none');
+    ele.fadeOut('slow');
   } else {
-    ele.css('display','table-row-group');
+    ele.fadeIn('slow');
   }
 
   if (isEditable) {
-    $(`#updateData_${id}`).css('display', '');
+    $(`#updateData_${id}`).fadeIn('slow');;
   } else {
-    $(`#updateData_${id}`).css('display', 'none');
+    $(`#updateData_${id}`).fadeOut('slow');;
   }
 }
 
@@ -229,11 +238,15 @@ $('table').on('click', 'input[id^=delete]', function() {
 //View Counts Event
 $('.counts').change(function() {
   if(this.value == 'onscroll') {
-    k = 10;
-    main.displayTB(10);
+    k = 20;
+    main.displayTB(20);
     $(window).scroll(function() {
          if(($(window).scrollTop() + $(window).height()) == $(document).height()) {
            if (k == main.dataRoot.length) {
+             var checkWarn = $('.warning');
+             if(checkWarn.length <= 0) {
+               $('table').after("<h2 class='warning'> No more records available</h2>")
+             }
             } else if (k <= (main.dataRoot.length-10)) {
                k = k + 10;
                main.displayTB(k);
@@ -245,6 +258,7 @@ $('.counts').change(function() {
     });
   } else {
     k = undefined;
+    if($('.warning').length > 0) $('.warning').remove();
     main.displayTB(this.value);
   }
 })
@@ -259,9 +273,11 @@ function myFunction(keyValue, f) {
   var tr = $("tr[id^='user'] > td:nth-of-type(" + f + ")");
    tr.each(function(index, e)  {
     if($(e).text().toUpperCase().indexOf(filter) > -1) {
-      $(this).parent().css('display', '')
+      // $(this).parent().css('visibility', 'visible');
+      $(this).parent().fadeIn("def");
     } else {
-      $(this).parent().css('display', 'none')
+      // $(this).parent().css('visibility', 'hidden');
+      $(this).parent().fadeOut("def");
     }
   })
 }
